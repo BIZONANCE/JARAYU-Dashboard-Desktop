@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Progress Bar Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #1e1e1e;
+            font-family: Arial, sans-serif;
+            position: relative;
+        }
+
+        .outer {
+            text-align: center;
+        }
+
+        .loader {
+            position: relative;
+            width: 500px;
+            height: 10px;
+            background-color: #f3c496;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+
+        .loader-fill {
+            width: 0%;
+            height: 100%;
+            border-radius: 10px;
+            background-color: #ff9429;
+            transition: width 0.2s ease-out;
+        }
+
+        .loader-text {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            color: black;
+            font-weight: bold;
+            font-size: 10px;
+        }
+
+        .version {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.5;
+        }
+
+        .image-cont img {
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <div class="image-cont">
+            <img src="./bizonance_logo.png" alt="Logo" width="200" height="200">
+        </div>
+
+        <div class="loader">
+            <div class="loader-fill"></div>
+            <span class="loader-text">0%</span>
+        </div>
+
+        <!-- Version display -->
+        <div class="version" id="version">Version: 1.0.0</div>
+    </div>
+
+    <script>
+       
+        const steps = [0, 5, 10, 20, 40, 60, 100];
+        const duration = 300; // 3 seconds total duration
+        const stepInterval = duration / (steps.length - 1); // Calculate interval between steps
+
+        const loader = document.querySelector('.loader');
+
+        let currentStep = 0;
+
+        function animateLoader() {
+            if (currentStep < steps.length) {
+                updateProgressbar(loader, steps[currentStep]);
+                currentStep++;
+                setTimeout(animateLoader, stepInterval);
+            }
+        }
+
+        function updateProgressbar(bar, value) {
+            value = Math.round(value);
+            bar.querySelector('.loader-fill').style.width = `${value}%`;
+            bar.querySelector('.loader-text').textContent = `${value}%`;
+        }
+
+        // Start the animation
+        animateLoader();
+
+        // Update version number using Electron's app.getVersion()
+        const { app } = require('electron'); // Ensure Electron's app module is available
+        const versionElement = document.getElementById('version');
+        versionElement.textContent = `Version: ${app.getVersion()}`; // Display version number
+    </script>
+</body>
+</html>

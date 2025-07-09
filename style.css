@@ -1,0 +1,21 @@
+/* Add this CSS to your stylesheet */
+#titlebar {
+    -webkit-app-region: drag;
+    background-color: white;
+    color: black;
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+}
+
+#window-controls button {
+    -webkit-app-region: no-drag;
+    background: transparent;
+    border: none;
+    color: black;
+    margin-left: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}

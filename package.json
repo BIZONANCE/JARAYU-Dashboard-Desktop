@@ -1,0 +1,48 @@
+{
+  "name": "admin-panel",
+  "version": "1.0.0",
+  "description": "PRPP Lakshya Academy Admin Panel",
+  "main": "main.js",
+  "author": "Bizonance",
+  "license": "ICSC",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "release": "electron-builder --publish always"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "electron-log": "^5.2.4",
+    "electron-updater": "^6.3.9"
+  },
+  "build": {
+    "appId": "com.bizonance.adminpanel",
+    "productName": "Lakshya-Dashboard",
+    "copyright": "Copyright © Bizonance",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "./bizonance_logo.png",
+      "publisherName": "Bizonance",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "Bizonance",
+        "repo": "Lakshya-windows-app",
+        "releaseType": "release"
+      }
+    ]
+  }
+}
