@@ -22,6 +22,8 @@
     "appId": "com.bizonance.adminpanel",
     "productName": "Lakshya-Dashboard",
     "copyright": "Copyright © Bizonance",
+    "artifactName": "Lakshya-Dashboard-Setup-${version}.${ext}",
+
     "win": {
       "target": [
         "nsis"
@@ -39,7 +41,7 @@
     "publish": [
       {
         "provider": "github",
-        "owner": "Bizonance",
+        "owner": "BIZONANCE",
         "repo": "Lakshya-windows-app",
         "releaseType": "release"
       }
