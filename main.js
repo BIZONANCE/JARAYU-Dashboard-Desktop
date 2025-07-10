@@ -1,5 +1,12 @@
 // main.js
-const { app, BrowserWindow, Menu, ipcMain, dialog, globalShortcut } = require("electron");
+const {
+  app,
+  BrowserWindow,
+  Menu,
+  ipcMain,
+  dialog,
+  globalShortcut,
+} = require("electron");
 const path = require("node:path");
 const log = require("electron-log");
 const { autoUpdater } = require("electron-updater");
@@ -47,24 +54,24 @@ const createWindow = () => {
     mainWindow.loadURL("http://localhost:3000");
     mainWindow.webContents.openDevTools();
   } else {
-    mainWindow.loadFile(path.join(__dirname,  "index.html"));
+    mainWindow.loadFile(path.join(__dirname, "index.html"));
   }
 
   // Handle splash screen transition
   mainWindow.webContents.once("did-finish-load", () => {
     setTimeout(() => {
       splashWindow.webContents.executeJavaScript(
-          "document.body.style.transition='opacity 1s ease-out';document.body.style.opacity=0;",
-          true
+        "document.body.style.transition='opacity 1s ease-out';document.body.style.opacity=0;",
+        true
       );
       splashWindow.webContents
-          .executeJavaScript(
-              "new Promise(resolve => { document.body.addEventListener('transitionend', resolve, { once: true }); })"
-          )
-          .then(() => {
-            splashWindow.close();
-            mainWindow.show();
-          });
+        .executeJavaScript(
+          "new Promise(resolve => { document.body.addEventListener('transitionend', resolve, { once: true }); })"
+        )
+        .then(() => {
+          splashWindow.close();
+          mainWindow.show();
+        });
     }, 500);
   });
 
@@ -97,7 +104,7 @@ const checkForUpdates = () => {
       type: "info",
       title: "Update Available",
       message: `Version ${info.version} is available. Downloading...`,
-      buttons: ["OK"]
+      buttons: ["OK"],
     });
   });
 
@@ -114,8 +121,8 @@ const checkForUpdates = () => {
       mainWindow.webContents.send("update-error", err.toString());
     }
     dialog.showErrorBox(
-        "Update Error",
-        "Failed to check for updates. Please try again later."
+      "Update Error",
+      "Failed to check for updates. Please try again later."
     );
   });
 
@@ -136,28 +143,38 @@ const checkForUpdates = () => {
     if (mainWindow) {
       mainWindow.webContents.send("update-downloaded", info);
     }
-    dialog.showMessageBox(mainWindow, {
-      type: "info",
-      title: "Update Ready",
-      message: "Update has been downloaded. The application will be quit and updated...",
-      buttons: ["Restart now", "Later"],
-    }).then((returnValue) => {
-      if (returnValue.response === 0) {
-        autoUpdater.quitAndInstall(false, true);
-      }
-    });
+    dialog
+      .showMessageBox(mainWindow, {
+        type: "info",
+        title: "Update Ready",
+        message:
+          "Update has been downloaded. The application will be quit and updated...",
+        buttons: ["Restart now", "Later"],
+      })
+      .then((returnValue) => {
+        if (returnValue.response === 0) {
+          autoUpdater.quitAndInstall(false, true);
+        }
+      });
   });
 
   // Check for updates
   try {
+    autoUpdater.setFeedURL({
+      provider: "github",
+      owner: "BIZONANCE",
+      repo: "Lakshya-windows-app",
+    });
+
     log.info("Triggering update check...");
-    autoUpdater.checkForUpdates()
-        .then(result => {
-          log.info("Update check completed successfully", result);
-        })
-        .catch(err => {
-          log.error("Update check failed with error:", err);
-        });
+    autoUpdater
+      .checkForUpdates()
+      .then((result) => {
+        log.info("Update check completed successfully", result);
+      })
+      .catch((err) => {
+        log.error("Update check failed with error:", err);
+      });
   } catch (error) {
     log.error("Exception when checking for updates:", error);
   }
@@ -172,6 +189,8 @@ ipcMain.handle("check-for-updates", () => {
 
 // App event handlers
 app.whenReady().then(() => {
+  app.setAppUserModelId("com.bizonance.adminpanel");
+
   log.info("App is ready, creating windows");
   createWindow();
 
@@ -188,7 +207,7 @@ app.whenReady().then(() => {
   }, 60 * 60 * 1000);
 
   // Register DevTools shortcut
-  globalShortcut.register('Ctrl+Shift+I', () => {
+  globalShortcut.register("Ctrl+Shift+I", () => {
     if (mainWindow) {
       mainWindow.webContents.openDevTools();
     }
@@ -207,11 +226,11 @@ app.on("window-all-closed", () => {
 });
 
 // Cleanup on quit
-app.on('will-quit', () => {
+app.on("will-quit", () => {
   globalShortcut.unregisterAll();
 });
 
 // IPC handlers
-ipcMain.handle('get-version', () => {
+ipcMain.handle("get-version", () => {
   return app.getVersion();
 });
