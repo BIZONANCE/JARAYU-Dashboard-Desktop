@@ -1,6 +1,6 @@
 {
   "name": "admin-panel-lakshya",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "PRPP Lakshya Academy Admin Panel",
   "main": "main.js",
   "author": "Bizonance",
@@ -22,7 +22,7 @@
     "appId": "com.bizonance.adminpanel.lakshya",
     "productName": "Lakshya-Dashboard",
     "copyright": "Copyright © Bizonance",
-    "artifactName": "Lakshya-Dashboard-Setup-${version}.${ext}",
+    "artifactName": "prpplakshya-Dashboard-Setup-${version}.${ext}",
 
     "win": {
       "target": [
