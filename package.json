@@ -1,7 +1,7 @@
 {
-  "name": "admin-panel-lakshya",
-  "version": "1.0.7",
-  "description": "PRPP Lakshya Academy Admin Panel",
+  "name": "admin-panel-jarayu",
+  "version": "0.0.1",
+  "description": "JARAYU Ayurved Admin Panel",
   "main": "main.js",
   "author": "Bizonance",
   "license": "ICSC",
@@ -19,10 +19,10 @@
     "electron-updater": "^6.3.9"
   },
   "build": {
-    "appId": "com.bizonance.adminpanel.lakshya",
-    "productName": "Lakshya-Dashboard",
+    "appId": "com.bizonance.adminpanel.jarayu",
+    "productName": "JARAYUAYURVED-Dashboard",
     "copyright": "Copyright © Bizonance",
-    "artifactName": "prpplakshya-Dashboard-Setup-${version}.${ext}",
+    "artifactName": "JARAYUAYURVED-Dashboard-Setup-${version}.${ext}",
 
     "win": {
       "target": [
@@ -42,7 +42,7 @@
       {
         "provider": "github",
         "owner": "BIZONANCE",
-        "repo": "PRPPLakshyaacademy-windowsapp",
+        "repo": "JARAYU-Dashboard-Desktop",
         "releaseType": "release"
       }
     ]
