@@ -12,11 +12,11 @@ let mainWindow, splashWindow;
 
 // Function to create the main window and splash screen
 const createWindow = () => {
-  mainWindow = new BrowserWindow({
-    width: 800,
+  let mainWindow = new BrowserWindow({
+    width: 800, // initial size (optional)
     height: 600,
     icon: path.join(__dirname, "bizonance_logo.png"),
-    show: false,
+    show: false, // keep hidden until ready
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
       nodeIntegration: false,
@@ -62,7 +62,13 @@ const createWindow = () => {
         )
         .then(() => {
           splashWindow.close();
-          mainWindow.show();
+          // Maximize immediately
+          mainWindow.maximize();
+
+          // Show when ready
+          mainWindow.once("ready-to-show", () => {
+            mainWindow.show();
+          });
         });
     }, 500);
   });

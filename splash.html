@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <title>Progress Bar Animation</title>
+    <title>Segmented Loader</title>
     <style>
         body {
             display: flex;
@@ -12,103 +11,93 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            background-color: #1e1e1e;
+            background-color: #e3e3e3;
             font-family: Arial, sans-serif;
-            position: relative;
         }
 
         .outer {
             text-align: center;
         }
 
+        .image-cont img {
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
         .loader {
             position: relative;
             width: 500px;
-            height: 10px;
-            background-color: #f3c496;
+            height: 5px;
+            background-color: #ddd;
             border-radius: 10px;
             overflow: hidden;
-            margin: 20px auto;
+            display: flex;
         }
 
-        .loader-fill {
-            width: 0%;
+        .segment {
             height: 100%;
-            border-radius: 10px;
-            background-color: #ff9429;
-            transition: width 0.2s ease-out;
+            width: 0%;
+            transition: width 0.5s ease;
         }
 
-        .loader-text {
-            position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
-            color: black;
-            font-weight: bold;
-            font-size: 10px;
-        }
+        .segment1 { background-color: #ffbd00; }
+        .segment2 { background-color: #00076f; }
+        .segment3 { background-color: #ff3d00; }
 
         .version {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            color: #fff;
-            font-size: 12px;
-            opacity: 0.5;
-        }
-
-        .image-cont img {
-            border-radius: 10px;
+            margin-top: 15px;
+            color: #3a3a3a;
+            font-size: 14px;
+            opacity: 0.8;
         }
     </style>
 </head>
 <body>
     <div class="outer">
         <div class="image-cont">
-            <img src="./bizonance_logo.png" alt="Logo" width="200" height="200">
+            <img src="./bizonance_logo.png" alt="Logo" width="150" height="150">
         </div>
 
         <div class="loader">
-            <div class="loader-fill"></div>
-            <span class="loader-text">0%</span>
+            <div class="segment segment1"></div>
+            <div class="segment segment2"></div>
+            <div class="segment segment3"></div>
         </div>
 
-        <!-- Version display -->
-        <div class="version" id="version">Version: 1.0.0</div>
+        <div class="version" id="version">Jarayu Ayurved Dashboard</div>
+
+
+        <div class="version" id="version">Version: 0.0.3</div>
     </div>
 
     <script>
-       
-        const steps = [0, 5, 10, 20, 40, 60, 100];
-        const duration = 300; // 3 seconds total duration
-        const stepInterval = duration / (steps.length - 1); // Calculate interval between steps
+        const segments = [
+            document.querySelector('.segment1'),
+            document.querySelector('.segment2'),
+            document.querySelector('.segment3')
+        ];
 
-        const loader = document.querySelector('.loader');
+        const segmentWidths = [33, 33, 34]; // 3 segments totaling 100%
+        let currentSegment = 0;
 
-        let currentStep = 0;
-
-        function animateLoader() {
-            if (currentStep < steps.length) {
-                updateProgressbar(loader, steps[currentStep]);
-                currentStep++;
-                setTimeout(animateLoader, stepInterval);
+        function animateSegment() {
+            if (currentSegment < segments.length) {
+                segments[currentSegment].style.width = `${segmentWidths[currentSegment]}%`;
+                currentSegment++;
+                setTimeout(animateSegment, 500); // Animate each segment sequentially
             }
         }
 
-        function updateProgressbar(bar, value) {
-            value = Math.round(value);
-            bar.querySelector('.loader-fill').style.width = `${value}%`;
-            bar.querySelector('.loader-text').textContent = `${value}%`;
+        animateSegment();
+
+        // For Electron version display
+        try {
+            const { app } = require('electron');
+            const versionElement = document.getElementById('version');
+            versionElement.textContent = `Version: ${app.getVersion()}`;
+        } catch (err) {
+            // fallback if Electron not available
         }
-
-        // Start the animation
-        animateLoader();
-
-        // Update version number using Electron's app.getVersion()
-        const { app } = require('electron'); // Ensure Electron's app module is available
-        const versionElement = document.getElementById('version');
-        versionElement.textContent = `Version: ${app.getVersion()}`; // Display version number
     </script>
 </body>
 </html>
